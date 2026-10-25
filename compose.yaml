@@ -1,0 +1,6 @@
+# Local dependencies for {{PROJECT_NAME}}.
+# Owner: {{OWNER}}. Stack: {{STACK}} (unset).
+# The kickoff skill adds services after the stack is chosen.
+# No application image. No Node (or other runtime) pin.
+
+services: {}

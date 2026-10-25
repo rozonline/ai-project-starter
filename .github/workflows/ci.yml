@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    name: Fast unit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fast unit subset
+        run: |
+          echo "Fast unit placeholder for {{PROJECT_NAME}} (stack: {{STACK}})."
+          echo "Kickoff skill replaces this step with: {{STACK_TEST_FAST}}"
+          echo "No application tests in the template."
+
+  full:
+    name: Full suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Full suite
+        run: |
+          echo "Full suite placeholder for {{PROJECT_NAME}} (stack: {{STACK}})."
+          echo "Kickoff skill replaces this step with: {{STACK_TEST_FULL}}"
+          echo "No application tests in the template."
+          echo "If the real suite is slow, drop pull_request from this job and keep push to main plus workflow_dispatch."
+
+  coverage:
+    name: Coverage upload
+    if: ${{ vars.COVERAGE_UPLOAD == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Coverage artifact (no percent gate)
+        run: |
+          echo "Optional upload only. No coverage percent gate on the L3 floor."
+          echo "Stack command, when enabled: {{STACK}} coverage. See docs/TESTING.md."
+          mkdir -p coverage
+          printf '%s\n' '{"placeholder":true}' > coverage/placeholder.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/placeholder.json

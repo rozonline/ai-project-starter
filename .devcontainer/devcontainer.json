@@ -1,0 +1,14 @@
+{
+  // Generic base for {{PROJECT_NAME}}. Not an application image.
+  // {{STACK}} is unset. Do not pin Node or any other runtime here.
+  // The kickoff skill adds that pin after the stack is chosen.
+  // ../compose.yaml has no services yet. Set dockerComposeFile when one exists.
+  "name": "{{PROJECT_NAME}}",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "postCreateCommand": "git config core.hooksPath .githooks",
+  "customizations": {
+    "vscode": {
+      "extensions": []
+    }
+  }
+}

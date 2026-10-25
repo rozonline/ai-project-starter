@@ -1,0 +1,14 @@
+# NOT APPLIED. Fragment for the Fast unit job. See docs/l4-feedback.md.
+name: Fast unit
+timeout-minutes: 1
+runs-on: ubuntu-latest
+steps:
+  - uses: actions/checkout@v4
+  - name: Fast unit under one minute
+    run: |
+      start=$(date +%s)
+      # {{STACK_TEST_FAST}}
+      echo "Replace the echo with {{STACK_TEST_FAST}} before relying on this cap."
+      elapsed=$(( $(date +%s) - start ))
+      echo "elapsed_seconds=${elapsed}"
+      test "$elapsed" -lt 60

@@ -1,0 +1,19 @@
+# NOT APPLIED. Copy into .github/workflows/ci.yml only to enforce a percent.
+# Replace {{COVERAGE_MIN}} with an integer first. See docs/l4-coverage.md.
+name: Coverage gate
+runs-on: ubuntu-latest
+steps:
+  - uses: actions/checkout@v4
+  - name: Enforce coverage percent
+    env:
+      COVERAGE_MIN: "{{COVERAGE_MIN}}"
+    run: |
+      test -f coverage/percent.txt || { echo "missing coverage/percent.txt"; exit 1; }
+      got=$(tr -d '[:space:]' < coverage/percent.txt)
+      min="$COVERAGE_MIN"
+      if [ -z "$min" ] || [ "$min" = "{{COVERAGE_MIN}}" ]; then
+        echo "Set COVERAGE_MIN before enabling this pack."
+        exit 1
+      fi
+      awk -v got="$got" -v min="$min" 'BEGIN { if ((got + 0) < (min + 0)) exit 1 }'
+      echo "coverage ${got}% meets ${min}%"

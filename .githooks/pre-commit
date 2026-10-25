@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Format and lint for {{PROJECT_NAME}}. Budget: under 30 seconds.
+# Enable in this clone (once):
+#   git config core.hooksPath .githooks
+# Stack commands are filled later:
+#   {{STACK_FORMAT}}
+#   {{STACK_LINT}}
+set -euo pipefail
+
+if [[ "${SKIP_HOOKS:-}" == "1" ]]; then
+  echo "pre-commit: skipped (SKIP_HOOKS=1)"
+  exit 0
+fi
+
+git rev-parse --is-inside-work-tree >/dev/null
+
+start=$SECONDS
+
+# {{STACK_FORMAT}}
+# {{STACK_LINT}}
+
+elapsed=$((SECONDS - start))
+if (( elapsed >= 30 )); then
+  echo "pre-commit: ${elapsed}s exceeds the 30s budget." >&2
+  exit 1
+fi
+
+echo "pre-commit: no {{STACK}} format/lint command yet (${elapsed}s). OK."
+exit 0
