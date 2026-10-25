@@ -1,0 +1,23 @@
+name: Dependency review
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  dependency-review:
+    name: Dependency review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Secret-scanning reminder
+        run: |
+          echo "Enable GitHub secret scanning and push protection."
+          echo "See docs/SECURITY.md. No lockfile until {{STACK}} is chosen."
+      - uses: actions/checkout@v4
+      - name: Review dependency manifests
+        if: github.event.repository.visibility == 'public'
+        uses: actions/dependency-review-action@v4
+        continue-on-error: true
